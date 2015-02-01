@@ -23,7 +23,7 @@ void Dialog::DisplayText()
 {
     QString edit;
 
-    QFile myFile("C:/Program Files (x86)/BrandanApplications/Kumon Classwork Recording/KumonDisplay.txt"); //what file
+    QFile myFile("C:/Users/Brandan/Desktop/KumonDisplay.txt"); //what file
     myFile.open(QIODevice::ReadOnly); //opens file
 
     QTextStream textStream(&myFile); //convert to stream
@@ -47,6 +47,7 @@ void Dialog::DisplayText()
         ui->comboBox->addItem("December");
 
 
+    //month and year
     for (int i=1; i<=31; i++)
     {
         ui->comboBox_2->addItem(QString::number(i));
@@ -56,6 +57,7 @@ void Dialog::DisplayText()
     {
         ui->comboBox_3->addItem(QString::number(i));
     }
+
 
     QTextCursor textCursor = ui->textEdit->textCursor();
     textCursor.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor,10);
@@ -71,19 +73,24 @@ void Dialog::on_pushButton_clicked()
     QString day;
     QString year;
 
+    //stores input
     month=ui->comboBox->currentText();
     day=ui->comboBox_2->currentText();
     year=ui->comboBox_3->currentText();
 
-
+    //combines string for search
     QString date= month + "/" + day + "/" + year;
 
+    //highlights text in document
     ui->textEdit->find(date, QTextDocument::FindWholeWords);
 
 }
 
 void Dialog::on_pushButton_2_clicked()
 {
+    //stores name
     QString name=ui->lineEdit->text();
+
+    //highlights text in document
     ui->textEdit->find(name, QTextDocument::FindWholeWords);
 }

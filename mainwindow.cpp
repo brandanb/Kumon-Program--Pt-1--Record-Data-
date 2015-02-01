@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
 
-
+    //adds selections for level in combobox
     ui->comboBox_16->addItem("7A");
     ui->comboBox_16->addItem("6A");
     ui->comboBox_16->addItem("5A");
@@ -79,6 +79,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->comboBox_15->addItem("Reading");
 
 
+    //adding starting pages and ending pages for starting page and ending page
     for (int i=1; i<=200; i++)
     {
         ui->comboBox_17->addItem(QString::number(i));
@@ -88,19 +89,22 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         ui->comboBox_18->addItem(QString::number(i));
     }
-
+    //set starting value for starting page
     ui->comboBox_18->setCurrentIndex(1);
 
+
+    //days
     for(int i=1; i<32; i++)
     {
         ui->comboBox_2->addItem(QString::number(i));
     }
-
+    //years
     for(int i=2000; i<2020; i++)
     {
         ui->comboBox_3->addItem(QString::number(i));
     }
 
+    //number of pages
     ui->comboBox_4->addItem(QString::number(0));
 
     for(int i=1; i<11; i++)
@@ -109,12 +113,12 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
 
-
+    //individul page score
     for(int i=10; i>5; i--)
     {
         ui->comboBox_5->addItem(QString::number(i));
     }
-
+    //hide until number of pages chosen
     ui->comboBox_5->hide();
 
     for(int i=10; i>5; i--)
@@ -178,6 +182,7 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->comboBox_14->addItem(QString::number(i));
     }
 
+    //setting starting how many choices
     ui->comboBox_5->setCurrentIndex(6);
     ui->comboBox_6->setCurrentIndex(6);
     ui->comboBox_7->setCurrentIndex(6);
@@ -212,7 +217,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-
+    //enter new entry
     QString name;
     QString month;
     QString day;
@@ -223,8 +228,9 @@ void MainWindow::on_pushButton_clicked()
 
     page=ui->comboBox_4->currentText(); //*********
 
-    if (page != "0")
+    if (page != "0") //number of pages cant be zero
     {
+    //store inputs in strings/ints
     name=ui->lineEdit->text();
     name=name.toLower();
 
@@ -253,26 +259,36 @@ void MainWindow::on_pushButton_clicked()
 
     pagenumber=page.toInt();
 
+    //average
     scores=(one.toInt()+two.toInt()+three.toInt()+four.toInt()+five.toInt()+six.toInt()+seven.toInt()+eight.toInt()+nine.toInt()+ten.toInt())/pagenumber;
 
     QString s = QString::number(scores);
 
 
+    //create ouptput file and anlyzation file
+    QFile file("C:/Users/Brandan/Desktop/KumonWrite.txt");
+    QFile file2("C:/Users/Brandan/Desktop/KumonDisplay.txt");
 
-    QFile file("C:/Program Files (x86)/BrandanApplications/Kumon Classwork Recording/KumonWrite.txt");
-    QFile file2("C:/Program Files (x86)/BrandanApplications/Kumon Classwork Recording/KumonDisplay.txt");
+   // if(qwe.open(QIODevice::WriteOnly | QIODevice::Text)) {
+   //   qwe.write(z);
+   //   qwe.close();
+   //  } else {
+   //   qDebug() << "Error";
+   // }
 
-
+    //open file
     file.open(QIODevice::Append);
     file2.open(QIODevice::Append);
+
 
     QTextStream stream(&file); //stream of information
     QTextStream stream2(&file2);
 
+    //write to file
     stream << name << " " << month << " " << day << " " << year << " " << sub << " " << level << " " << page << " " << s << " " << starting << " " << ending << " ";
     stream2 << "Name: " << name << " | " << "Date: " << month << "/" << day << "/" << year << " | " << "Subject: " << sub << " | " << "Level: " << level <<  " | " << "Starting Page: " << starting << " | " << "Ending page: " << ending << " | " << "Individual Scores: ";
 
-
+    //write individual page scores
     if ((one != "BLANK") && (one != NULL))
     {
         stream << one << " ";
@@ -384,19 +400,24 @@ void MainWindow::on_pushButton_clicked()
         stream << "0" << " ";
     }
 
+    //end stream
     stream << endl;
     stream2 << endl;
 
-
+    //close file
     file.close();
     file2.close();
+
+
     }
     else
     {
+       //if there is zero pages
        QMessageBox::warning(this,tr("Warning"),tr("More then 0 number of pages are needed"));
     }
 }
 
+//when page number is changed show options for corresponding scores on those pages
 void MainWindow::on_comboBox_4_currentIndexChanged(int index)
 {
     if (ui->comboBox_4->currentText()=="0")
@@ -798,6 +819,8 @@ void MainWindow::on_comboBox_4_currentIndexChanged(int index)
 
 }
 
+
+//show corresponding levels with either math or reading
 void MainWindow::on_comboBox_15_currentIndexChanged(const QString &arg1)
 {
     if (ui->comboBox_15->currentText()=="Math")
@@ -858,7 +881,7 @@ void MainWindow::on_comboBox_15_currentIndexChanged(const QString &arg1)
 
 
 
-
+//stored data
 void MainWindow::on_pushButton_2_clicked()
 {
     Dialog object1;
